@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="src/SignalSpec.AspNetCore/SignalSpec.AspNetCore.csproj" />
+  <Project Path="samples/SignalSpec.Sample/SignalSpec.Sample.csproj" />
+  <Project Path="tests/SignalSpec.AspNetCore.Tests/SignalSpec.AspNetCore.Tests.csproj" />
+</Solution>
