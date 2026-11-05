@@ -3,13 +3,25 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>SignalSpec.AspNetCore</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
+    <PackageReleaseNotes>Add XML documentation for the public API. Rename FrontendEvent to FrontendMethod and the JSON methodType value from frontendEvent to frontendMethod; consumers must update references to the previous names.</PackageReleaseNotes>
+    <Title>SignalSpec ASP.NET Core</Title>
+    <Authors>IvanKobtsev</Authors>
+    <Copyright>Copyright (c) 2026 IvanKobtsev</Copyright>
+    <PackageTags>signalr aspnetcore json specification code-generation dotnet</PackageTags>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageProjectUrl>https://github.com/IvanKobtsev/SignalSpec.AspNetCore</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/IvanKobtsev/SignalSpec.AspNetCore</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Standalone SignalR client contract specifications and automatic hub mapping.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <None Include="../../LICENSE" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

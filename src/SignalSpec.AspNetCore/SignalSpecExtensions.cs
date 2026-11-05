@@ -9,8 +9,13 @@ using Microsoft.Extensions.Hosting;
 
 namespace SignalSpec.AspNetCore;
 
+/// <summary>Registers SignalSpec services and maps specification and hub endpoints.</summary>
 public static class SignalSpecExtensions
 {
+    /// <summary>Registers specification options and standard SignalR services.</summary>
+    /// <param name="services">The application's service collection.</param>
+    /// <param name="configure">An optional callback configuring discovery and automatic hub mapping.</param>
+    /// <returns>The SignalR builder for further protocol and service configuration.</returns>
     public static ISignalRServerBuilder AddSignalSpec(this IServiceCollection services,
         Action<SignalSpecOptions>? configure = null)
     {
@@ -20,6 +25,13 @@ public static class SignalSpecExtensions
         return services.AddSignalR();
     }
 
+    /// <summary>Generates a JSON specification and maps its GET endpoint, optionally mapping discovered hubs.</summary>
+    /// <param name="endpoints">The application's endpoint route builder.</param>
+    /// <param name="pattern">The route pattern at which to serve the specification.</param>
+    /// <returns>A convention builder for the specification endpoint, allowing authorization and other conventions.</returns>
+    /// <remarks>Call once after registering services with <see cref="AddSignalSpec"/>. The specification is generated once during setup.</remarks>
+    /// <exception cref="ArgumentException">The route pattern is empty or whitespace.</exception>
+    /// <exception cref="InvalidOperationException">Required services are missing, types are unsupported, or discovered names conflict.</exception>
     public static IEndpointConventionBuilder MapSignalSpec(this IEndpointRouteBuilder endpoints, string pattern)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(pattern);

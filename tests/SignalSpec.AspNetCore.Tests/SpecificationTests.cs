@@ -16,7 +16,7 @@ public class SpecificationTests
     {
         var json = Generate(typeof(LegacyHub));
         using var expected = JsonDocument.Parse("""
-        {"metadata":{"description":"This is an extension data used by the automated SignalR client code generator."},"hubs":{"ILegacy":{"hubName":"LegacyHub","hubContract":{"methods":[{"name":"Send","parameters":[{"name":"text","type":"string"}],"returns":"Reply","methodType":"backendMethod"}]}}},"dtos":{"Reply":{"properties":[{"name":"isSuccessful","type":"boolean"}]}}}
+        {"metadata":{"description":"This is a SignalR specification that can be used by the automated SignalR client code generator."},"hubs":{"ILegacy":{"hubName":"LegacyHub","hubContract":{"methods":[{"name":"Send","parameters":[{"name":"text","type":"string"}],"returns":"Reply","methodType":"backendMethod"}]}}},"dtos":{"Reply":{"properties":[{"name":"isSuccessful","type":"boolean"}]}}}
         """);
         Assert.True(JsonElement.DeepEquals(expected.RootElement, json));
     }
@@ -26,11 +26,12 @@ public class SpecificationTests
     {
         var json = Generate(typeof(ModernHub));
         var methods = json.GetProperty("hubs").GetProperty("IModern").GetProperty("hubContract").GetProperty("methods").EnumerateArray().ToDictionary(m => m.GetProperty("name").GetString()!);
-        Assert.Equal("frontendEvent", methods["Receive"].GetProperty("methodType").GetString());
+        Assert.Equal("frontendMethod", methods["Receive"].GetProperty("methodType").GetString());
         Assert.Equal("default", methods["Both"].GetProperty("methodType").GetString());
         Assert.Equal("default", methods["Neither"].GetProperty("methodType").GetString());
         Assert.Equal("Node | null | undefined", methods["Receive"].GetProperty("parameters")[0].GetProperty("type").GetString());
         Assert.Equal("Node", methods["Get"].GetProperty("returns").GetString());
+        Assert.Equal("frontendMethod", methods["Get"].GetProperty("methodType").GetString());
         var properties = json.GetProperty("dtos").GetProperty("Node").GetProperty("properties").EnumerateArray().ToDictionary(p => p.GetProperty("name").GetString()!, p => p.GetProperty("type").GetString());
         Assert.Equal("(string | null | undefined)[]", properties["names"]);
         Assert.Equal("{ [key: string]: Node | null | undefined }", properties["children"]);
@@ -74,7 +75,7 @@ public class SpecificationTests
     public class LegacyHub : Hub<ILegacy> { public class Reply { public bool IsSuccessful { get; set; } } }
     public class OtherLegacyHub : Hub<ILegacy>;
     public interface IBase { [Frontend] Task Receive(Node? node); }
-    public interface IModern : IBase { [Backend, Frontend] Task Both(); Task Neither(); ValueTask<Node> Get(); }
+    public interface IModern : IBase { [Backend, Frontend] Task Both(); Task Neither(); [Frontend] ValueTask<Node> Get(); }
     public abstract class ModernBase : Hub<IModern>;
     public class ModernHub : ModernBase;
     public enum State { First, Second }

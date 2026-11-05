@@ -35,7 +35,7 @@ The root JSON contains `metadata`, `hubs`, and `dtos`. Hubs are keyed by client
 interface name, with `hubName` and `hubContract.methods`. Methods contain `name`,
 `parameters`, `returns`, and `methodType`. DTOs contain `properties` with `name`
 and TypeScript `type` strings. There is no OpenAPI wrapper.
-`[Backend]` means `backendMethod`, `[Frontend]` means `frontendEvent`; both or neither
+`[Backend]` means `backendMethod`, `[Frontend]` means `frontendMethod`; both or neither
 means `default`. Untyped hubs are mapped without a generated client contract.
 
 External DTOs and nested DTOs are supported, including recursive references.
